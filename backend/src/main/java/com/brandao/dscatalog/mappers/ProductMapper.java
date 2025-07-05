@@ -16,6 +16,7 @@ import com.brandao.dscatalog.entities.Product;
 public class ProductMapper {
 
     public static Product toEntity(ProductRequestDTO dto) {
+       
         return Product.builder()
         .name(dto.getName())
         .description(dto.getDescription())

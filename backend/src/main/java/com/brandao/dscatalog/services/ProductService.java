@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.brandao.dscatalog.entities.Category;
 import com.brandao.dscatalog.entities.Product;
 import com.brandao.dscatalog.mappers.ProductMapper;
 import com.brandao.dscatalog.repositories.ProductRepository;
+import com.brandao.dscatalog.services.exceptions.DatabaseException;
 import com.brandao.dscatalog.services.exceptions.EmptyRequestException;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;
 
@@ -67,10 +69,8 @@ public class ProductService {
     @Transactional
     public ProductResponseDTO updateProduct(ProductRequestDTO request, Long id) {
 
-        if (id == null)
+        if (id == null || request == null)
             throw new EmptyRequestException("one or more items is null");
-        if (request == null)
-            throw new EmptyRequestException("object cannot be null");
 
         Product entity = repository.findById(id).orElseThrow(() -> new NotFoundException("item not found"));
 
@@ -91,8 +91,11 @@ public class ProductService {
         if (!repository.existsById(id))
             throw new NotFoundException("id not found");
 
-        repository.deleteById(id);
-
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Cannot delete entity: it's related to other data.");
+        }
     }
 
     private Set<Category> categoriesForProductsEntities(ProductRequestDTO dto) {
