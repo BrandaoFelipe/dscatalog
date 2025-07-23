@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO>newCategory(@RequestBody ProductRequestDTO dto){
+    public ResponseEntity<ProductResponseDTO>newProduct(@RequestBody ProductRequestDTO dto){
 
         ProductResponseDTO response = service.createNewProduct(dto);
 
@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductResponseDTO> updateCategory(@PathVariable Long id, @RequestBody ProductRequestDTO dto){
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO dto){
 
         ProductResponseDTO response = service.updateProduct(dto, id);
 
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
      @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
 
         service.deleteProduct(id);
 

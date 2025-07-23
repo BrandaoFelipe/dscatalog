@@ -69,9 +69,6 @@ public class ProductService {
     @Transactional
     public ProductResponseDTO updateProduct(ProductRequestDTO request, Long id) {
 
-        if (id == null || request == null)
-            throw new EmptyRequestException("one or more items is null");
-
         Product entity = repository.findById(id).orElseThrow(() -> new NotFoundException("item not found"));
 
         ProductMapper.applyUpdates(request, entity);

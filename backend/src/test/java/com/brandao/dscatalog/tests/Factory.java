@@ -7,8 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.brandao.dscatalog.dtos.requestDtos.ProductRequestDTO;
+import com.brandao.dscatalog.dtos.responseDtos.ProductResponseDTO;
 import com.brandao.dscatalog.entities.Category;
 import com.brandao.dscatalog.entities.Product;
+import com.brandao.dscatalog.mappers.ProductMapper;
 
 public class Factory {
     
@@ -27,6 +29,15 @@ public class Factory {
         List<Long> categoryIds = product.getCategories().stream().map(Category::getId).collect(Collectors.toList());        
 
         return new ProductRequestDTO(product.getName(), product.getDescription(), product.getPrice(), product.getImgUrl(), categoryIds);
+    }
+
+    public static ProductResponseDTO productResponseDTO(){
+
+        ProductResponseDTO response = ProductMapper.toResponse(createProduct());
+
+        System.out.println("RESPONSE MOCKADO: " + response.getName());
+
+        return response;
     }
 
     public static Set<Category> createNewCategory(){
