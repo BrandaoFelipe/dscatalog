@@ -165,8 +165,7 @@ public class ProductControllerTests {
                 .contentType(MediaType.APPLICATION_JSON) //indica que o contentType vai ser enviado em formato Json
                 .accept(MediaType.APPLICATION_JSON)); //indica que o content vai ser  em formato Json
 
-        result.andExpect(status().isNotFound()); // notfound - procurar no controller qual exceção o controller vai
-                                                 // lançar.
+        result.andExpect(status().isNotFound());
     }
 
     @Test
