@@ -18,38 +18,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.brandao.dscatalog.dtos.requestDtos.CategoryRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.CategoryResponseDto;
-import com.brandao.dscatalog.services.CategoryService;
+import com.brandao.dscatalog.dtos.requestDtos.RoleRequestDTO;
+import com.brandao.dscatalog.dtos.responseDtos.RoleResponseDTO;
+import com.brandao.dscatalog.services.RoleService;
+
 
 @RestController
-@RequestMapping(path = "/categories")
-public class CategoryController {
+@RequestMapping(path = "/roles")
+public class RoleController {
 
     @Autowired
-    private CategoryService service;
+    private RoleService service;
 
     @GetMapping
-    public ResponseEntity<Page<CategoryResponseDto>> findAll(@PageableDefault(page = 0, size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<Page<RoleResponseDTO>> findAll(@PageableDefault(page = 0, size = 12, sort = "authority", direction = Sort.Direction.DESC) Pageable pageable){
 
-        Page<CategoryResponseDto>dtoList = service.findAllCategories(pageable);
+        Page<RoleResponseDTO>dtoList = service.findAllRoles(pageable);
 
         return ResponseEntity.ok(dtoList);
 
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoryResponseDto> findById(@PathVariable Long id){
+    public ResponseEntity<RoleResponseDTO> findById(@PathVariable Long id){
 
-        CategoryResponseDto dto = service.findCategoryByid(id);
+        RoleResponseDTO dto = service.findRoleByid(id);
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDto>newCategory(@RequestBody CategoryRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO>newRole(@RequestBody RoleRequestDTO dto){
 
-        CategoryResponseDto response = service.createCategory(dto);
+        RoleResponseDTO response = service.createRole(dto);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -62,9 +63,9 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO> updateRole(@PathVariable Long id, @RequestBody RoleRequestDTO dto){
 
-        CategoryResponseDto response = service.updateCategory(dto, id);
+        RoleResponseDTO response = service.updateRole(dto, id);
 
         return ResponseEntity.ok(response);
     }
@@ -72,7 +73,7 @@ public class CategoryController {
      @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteClient(@PathVariable Long id) {
 
-        service.deleteCategory(id);
+        service.deleteRole(id);
 
         return ResponseEntity.noContent().build();
     }

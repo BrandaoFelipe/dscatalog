@@ -6,18 +6,20 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponseDTO {
+public class UserResponseDTO {
 
     private Long id;
-    private String name;
-    private String description;
-    private Double price;
-
+    private String firstName;
+    private String lastName;
+    private String email;
+    
     @Builder.Default
-    private List<String> categories = new ArrayList<>();    
+    private List<String>roles = new ArrayList<>();
 
 }
