@@ -22,6 +22,8 @@ import com.brandao.dscatalog.dtos.requestDtos.CategoryRequestDTO;
 import com.brandao.dscatalog.dtos.responseDtos.CategoryResponseDto;
 import com.brandao.dscatalog.services.CategoryService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/categories")
 public class CategoryController {
@@ -47,7 +49,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDto>newCategory(@RequestBody CategoryRequestDTO dto){
+    public ResponseEntity<CategoryResponseDto>newCategory(@Valid @RequestBody CategoryRequestDTO dto){
 
         CategoryResponseDto response = service.createCategory(dto);
 
