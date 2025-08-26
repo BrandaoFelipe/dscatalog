@@ -1,4 +1,4 @@
-package com.brandao.dscatalog.dtos.requestDtos;
+package com.brandao.dscatalog.dtos.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

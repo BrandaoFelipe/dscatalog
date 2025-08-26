@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.brandao.dscatalog.dtos.requestDtos.ProductRequestDTO;
+import com.brandao.dscatalog.dtos.request.ProductRequestDTO;
 import com.brandao.dscatalog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

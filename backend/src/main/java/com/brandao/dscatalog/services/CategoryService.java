@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brandao.dscatalog.dtos.requestDtos.CategoryRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.CategoryResponseDto;
+import com.brandao.dscatalog.dtos.request.CategoryRequestDTO;
+import com.brandao.dscatalog.dtos.response.CategoryResponseDto;
 import com.brandao.dscatalog.entities.Category;
 import com.brandao.dscatalog.mappers.CategoryMapper;
 import com.brandao.dscatalog.repositories.CategoryRepository;

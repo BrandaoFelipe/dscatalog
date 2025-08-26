@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brandao.dscatalog.dtos.requestDtos.UserRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.UserResponseDTO;
+import com.brandao.dscatalog.dtos.request.UserRequestDTO;
+import com.brandao.dscatalog.dtos.response.UserResponseDTO;
 import com.brandao.dscatalog.entities.Roles;
 import com.brandao.dscatalog.entities.User;
 import com.brandao.dscatalog.mappers.UserMapper;

@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.brandao.dscatalog.dtos.requestDtos.UserRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.UserResponseDTO;
+import com.brandao.dscatalog.dtos.request.UserRequestDTO;
+import com.brandao.dscatalog.dtos.response.UserResponseDTO;
 import com.brandao.dscatalog.services.UserService;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<UserResponseDTO> findById(@Valid @PathVariable Long id){
 
         UserResponseDTO dto = service.findUserById(id);
 
@@ -48,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO>newUser(@RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponseDTO>newUser(@Valid @RequestBody UserRequestDTO dto){
 
         UserResponseDTO response = service.createNewUser(dto);
 
@@ -63,7 +65,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO dto){
 
         UserResponseDTO response = service.updateUser(dto, id);
 
@@ -71,7 +73,7 @@ public class UserController {
     }
 
      @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<?> deleteClient(@Valid @PathVariable Long id) {
 
         service.deleteUser(id);
 

@@ -25,8 +25,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.brandao.dscatalog.dtos.requestDtos.ProductRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.ProductResponseDTO;
+import com.brandao.dscatalog.dtos.request.ProductRequestDTO;
+import com.brandao.dscatalog.dtos.response.ProductResponseDTO;
 import com.brandao.dscatalog.services.ProductService;
 import com.brandao.dscatalog.services.exceptions.DatabaseException;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;

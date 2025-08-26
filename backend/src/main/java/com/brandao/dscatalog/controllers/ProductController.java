@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.brandao.dscatalog.dtos.requestDtos.ProductRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.ProductResponseDTO;
+import com.brandao.dscatalog.dtos.request.ProductRequestDTO;
+import com.brandao.dscatalog.dtos.response.ProductResponseDTO;
 import com.brandao.dscatalog.services.ProductService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/products")
@@ -39,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<ProductResponseDTO> findById(@Valid @PathVariable Long id){
 
         ProductResponseDTO dto = service.findProductById(id);
 
@@ -47,7 +49,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO>newProduct(@RequestBody ProductRequestDTO dto){
+    public ResponseEntity<ProductResponseDTO>newProduct(@Valid @RequestBody ProductRequestDTO dto){
 
         ProductResponseDTO response = service.createNewProduct(dto);
 
@@ -62,7 +64,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO dto){
+    public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @PathVariable Long id, @RequestBody ProductRequestDTO dto){
 
         ProductResponseDTO response = service.updateProduct(dto, id);
 
@@ -70,7 +72,7 @@ public class ProductController {
     }
 
      @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProduct(@Valid @PathVariable Long id) {
 
         service.deleteProduct(id);
 

@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import com.brandao.dscatalog.dtos.responseDtos.ProductResponseDTO;
+import com.brandao.dscatalog.dtos.response.ProductResponseDTO;
 import com.brandao.dscatalog.repositories.ProductRepository;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;
 

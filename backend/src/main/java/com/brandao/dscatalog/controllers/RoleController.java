@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.brandao.dscatalog.dtos.requestDtos.RoleRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.RoleResponseDTO;
+import com.brandao.dscatalog.dtos.request.RoleRequestDTO;
+import com.brandao.dscatalog.dtos.response.RoleResponseDTO;
 import com.brandao.dscatalog.services.RoleService;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -40,7 +42,7 @@ public class RoleController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<RoleResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<RoleResponseDTO> findById(@Valid @PathVariable Long id){
 
         RoleResponseDTO dto = service.findRoleByid(id);
 
@@ -48,7 +50,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<RoleResponseDTO>newRole(@RequestBody RoleRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO>newRole(@Valid @RequestBody RoleRequestDTO dto){
 
         RoleResponseDTO response = service.createRole(dto);
 
@@ -63,7 +65,7 @@ public class RoleController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<RoleResponseDTO> updateRole(@PathVariable Long id, @RequestBody RoleRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO> updateRole(@Valid @PathVariable Long id, @RequestBody RoleRequestDTO dto){
 
         RoleResponseDTO response = service.updateRole(dto, id);
 
@@ -71,7 +73,7 @@ public class RoleController {
     }
 
      @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<?> deleteClient(@Valid @PathVariable Long id) {
 
         service.deleteRole(id);
 

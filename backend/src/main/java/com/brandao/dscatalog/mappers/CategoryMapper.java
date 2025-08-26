@@ -2,8 +2,8 @@ package com.brandao.dscatalog.mappers;
 
 import org.springframework.stereotype.Component;
 
-import com.brandao.dscatalog.dtos.requestDtos.CategoryRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.CategoryResponseDto;
+import com.brandao.dscatalog.dtos.request.CategoryRequestDTO;
+import com.brandao.dscatalog.dtos.response.CategoryResponseDto;
 import com.brandao.dscatalog.entities.Category;
 
 @Component

@@ -1,4 +1,4 @@
-package com.brandao.dscatalog.dtos.requestDtos;
+package com.brandao.dscatalog.dtos.request;
 
 import java.util.ArrayList;
 import java.util.List;

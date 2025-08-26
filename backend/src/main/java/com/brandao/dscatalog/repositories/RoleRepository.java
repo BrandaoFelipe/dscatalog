@@ -11,7 +11,7 @@ import com.brandao.dscatalog.entities.Roles;
 
 public interface RoleRepository extends JpaRepository<Roles, Long>{
 
-    @Query("SELECT r.authority FROM Roles r WHERE r.authority IN :names")
-    public Set<Roles> searchRolesNames(@Param("names") List<String> names);
+    @Query("SELECT r FROM Roles r WHERE r.authority IN :names")
+    public Set<Roles> findByAuthorityIn(@Param("names") List<String> names);
 
 }

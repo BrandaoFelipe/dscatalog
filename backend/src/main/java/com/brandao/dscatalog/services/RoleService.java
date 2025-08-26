@@ -3,6 +3,7 @@ package com.brandao.dscatalog.services;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.brandao.dscatalog.dtos.requestDtos.RoleRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.RoleResponseDTO;
+import com.brandao.dscatalog.dtos.request.RoleRequestDTO;
+import com.brandao.dscatalog.dtos.response.RoleResponseDTO;
 import com.brandao.dscatalog.entities.Roles;
 import com.brandao.dscatalog.mappers.RoleMapper;
 import com.brandao.dscatalog.repositories.RoleRepository;
@@ -86,14 +87,15 @@ public class RoleService {
     @Transactional(readOnly = true)
     public Set<Roles> findRolesByNameForInternalUse(List<String>roles) {
 
-        roles = roles.stream().map(name -> "ROLE_" + name.toUpperCase()).toList();
+        roles = roles.stream().map(name -> "ROLE_" + name.toUpperCase()).collect(Collectors.toList());
 
-        Set<Roles> entities = repository.searchRolesNames(roles);
+        Set<Roles> entities = repository.findByAuthorityIn(roles);
         
         if(entities.isEmpty()){
             throw new EmptyRequestException("List is empty");
         }
 
         return entities;
+
     }
 }

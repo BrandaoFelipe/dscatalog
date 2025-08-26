@@ -1,4 +1,4 @@
-package com.brandao.dscatalog.dtos.responseDtos;
+package com.brandao.dscatalog.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

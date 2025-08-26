@@ -1,4 +1,4 @@
-package com.brandao.dscatalog.dtos.otherDtos;
+package com.brandao.dscatalog.dtos.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

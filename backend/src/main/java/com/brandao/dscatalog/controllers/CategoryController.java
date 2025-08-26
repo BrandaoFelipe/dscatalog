@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.brandao.dscatalog.dtos.requestDtos.CategoryRequestDTO;
-import com.brandao.dscatalog.dtos.responseDtos.CategoryResponseDto;
+import com.brandao.dscatalog.dtos.request.CategoryRequestDTO;
+import com.brandao.dscatalog.dtos.response.CategoryResponseDto;
 import com.brandao.dscatalog.services.CategoryService;
 
 import jakarta.validation.Valid;
@@ -41,7 +41,7 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoryResponseDto> findById(@PathVariable Long id){
+    public ResponseEntity<CategoryResponseDto> findById(@Valid @PathVariable Long id){
 
         CategoryResponseDto dto = service.findCategoryByid(id);
 
@@ -64,7 +64,7 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO dto){
+    public ResponseEntity<CategoryResponseDto> updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryRequestDTO dto){
 
         CategoryResponseDto response = service.updateCategory(dto, id);
 
