@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,6 @@ import com.brandao.dscatalog.services.RoleService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping(path = "/roles")
 public class RoleController {
@@ -33,24 +33,27 @@ public class RoleController {
     private RoleService service;
 
     @GetMapping
-    public ResponseEntity<Page<RoleResponseDTO>> findAll(@PageableDefault(page = 0, size = 12, sort = "authority", direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<Page<RoleResponseDTO>> findAll(
+            @PageableDefault(page = 0, size = 12, sort = "authority", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<RoleResponseDTO>dtoList = service.findAllRoles(pageable);
+        Page<RoleResponseDTO> dtoList = service.findAllRoles(pageable);
 
         return ResponseEntity.ok(dtoList);
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<RoleResponseDTO> findById(@Valid @PathVariable Long id){
+    public ResponseEntity<RoleResponseDTO> findById(@Valid @PathVariable Long id) {
 
         RoleResponseDTO dto = service.findRoleByid(id);
 
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<RoleResponseDTO>newRole(@Valid @RequestBody RoleRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO> newRole(@Valid @RequestBody RoleRequestDTO dto) {
 
         RoleResponseDTO response = service.createRole(dto);
 
@@ -64,15 +67,17 @@ public class RoleController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<RoleResponseDTO> updateRole(@Valid @PathVariable Long id, @RequestBody RoleRequestDTO dto){
+    public ResponseEntity<RoleResponseDTO> updateRole(@Valid @PathVariable Long id, @RequestBody RoleRequestDTO dto) {
 
         RoleResponseDTO response = service.updateRole(dto, id);
 
         return ResponseEntity.ok(response);
     }
 
-     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteRole(@Valid @PathVariable Long id) {
 
         service.deleteRole(id);

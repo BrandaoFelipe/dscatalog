@@ -17,6 +17,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.data.domain.PageImpl;
@@ -33,7 +34,7 @@ import com.brandao.dscatalog.services.exceptions.NotFoundException;
 import com.brandao.dscatalog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(ProductController.class)
+@WebMvcTest(value = ProductController.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
 public class ProductControllerTests {
 
     @Autowired
@@ -85,7 +86,7 @@ public class ProductControllerTests {
         // deleteProductShouldThrowBadRequestExceptionWhenDependantId
         doThrow(DatabaseException.class).when(service).deleteProduct(dependantId);
 
-        //createProductShouldCreateProduct
+        // createProductShouldCreateProduct
         when(service.createNewProduct(any())).thenReturn(productResponseDTO);
 
     }
@@ -158,12 +159,13 @@ public class ProductControllerTests {
     @Test
     public void updateProductShouldThrowNotFoundExeptionWhenInvalidId() throws Exception {
 
-        String jsonBody = objMap.writeValueAsString(productRequestDTO); // transforma o productRequestdto em uma string Json
+        String jsonBody = objMap.writeValueAsString(productRequestDTO); // transforma o productRequestdto em uma string
+                                                                        // Json
 
         ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId)
-                .content(jsonBody) //define o corpo da requisição, pega o productRequestDTO convertido em Json
-                .contentType(MediaType.APPLICATION_JSON) //indica que o contentType vai ser enviado em formato Json
-                .accept(MediaType.APPLICATION_JSON)); //indica que o content vai ser  em formato Json
+                .content(jsonBody) // define o corpo da requisição, pega o productRequestDTO convertido em Json
+                .contentType(MediaType.APPLICATION_JSON) // indica que o contentType vai ser enviado em formato Json
+                .accept(MediaType.APPLICATION_JSON)); // indica que o content vai ser em formato Json
 
         result.andExpect(status().isNotFound());
     }
@@ -194,7 +196,5 @@ public class ProductControllerTests {
         result.andExpect(status().isBadRequest());
 
     }
-
-    
 
 }
