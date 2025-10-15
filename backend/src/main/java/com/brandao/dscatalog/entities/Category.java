@@ -57,11 +57,11 @@ public class Category {
 
     @PrePersist
     public void prePersist() {
-        createdAt = Instant.now();
+        createdAt = Instant.now(); //para utilizar essas informações, criar um response dto personalizado para quando for criar uma categoria, no momento são irrelevantes.
     }
 
     @PreUpdate
     public void preUpdate() {
-        updatedAt = Instant.now();
+        updatedAt = Instant.now();  //para utilizar essas informações, criar um response dto personalizado para quando for dar update em uma categoria, no momento são irrelevantes.
     }   
 }

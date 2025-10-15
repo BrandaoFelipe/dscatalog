@@ -73,7 +73,7 @@ public class RoleController {
     }
 
      @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteClient(@Valid @PathVariable Long id) {
+    public ResponseEntity<?> deleteRole(@Valid @PathVariable Long id) {
 
         service.deleteRole(id);
 

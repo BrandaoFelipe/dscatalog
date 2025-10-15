@@ -1,4 +1,4 @@
-package com.brandao.dscatalog.dtos.error;
+package com.brandao.dscatalog.dtos.errorHandlers;
 
 import java.util.ArrayList;
 import java.util.List;

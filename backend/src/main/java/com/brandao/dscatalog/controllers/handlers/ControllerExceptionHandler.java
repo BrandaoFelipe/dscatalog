@@ -8,8 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.brandao.dscatalog.dtos.error.CustomError;
-import com.brandao.dscatalog.dtos.error.ValidationError;
+import com.brandao.dscatalog.dtos.errorHandlers.CustomError;
+import com.brandao.dscatalog.dtos.errorHandlers.ValidationError;
 import com.brandao.dscatalog.services.exceptions.DatabaseException;
 import com.brandao.dscatalog.services.exceptions.EmptyRequestException;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;

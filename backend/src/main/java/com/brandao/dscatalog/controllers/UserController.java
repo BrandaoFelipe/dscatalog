@@ -24,7 +24,6 @@ import com.brandao.dscatalog.services.UserService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -33,16 +32,17 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> findAll(@PageableDefault(page = 0, size = 12, sort = "firstName", direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<Page<UserResponseDTO>> findAll(
+            @PageableDefault(page = 0, size = 12, sort = "firstName", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<UserResponseDTO>dtoList = service.findAllUsers(pageable);
+        Page<UserResponseDTO> dtoList = service.findAllUsers(pageable);
 
         return ResponseEntity.ok(dtoList);
 
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@Valid @PathVariable Long id){
+    public ResponseEntity<UserResponseDTO> findById(@Valid @PathVariable Long id) {
 
         UserResponseDTO dto = service.findUserById(id);
 
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO>newUser(@Valid @RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponseDTO> newUser(@Valid @RequestBody UserRequestDTO dto) {
 
         UserResponseDTO response = service.createNewUser(dto);
 
@@ -65,15 +65,15 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO dto){
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequestDTO dto) {
 
         UserResponseDTO response = service.updateUser(dto, id);
 
         return ResponseEntity.ok(response);
     }
 
-     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteClient(@Valid @PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteUser(@Valid @PathVariable Long id) {
 
         service.deleteUser(id);
 

@@ -1,11 +1,15 @@
 package com.brandao.dscatalog.services;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +18,14 @@ import com.brandao.dscatalog.dtos.response.UserResponseDTO;
 import com.brandao.dscatalog.entities.Roles;
 import com.brandao.dscatalog.entities.User;
 import com.brandao.dscatalog.mappers.UserMapper;
+import com.brandao.dscatalog.projections.UserDetailsProjection;
 import com.brandao.dscatalog.repositories.UserRepository;
 import com.brandao.dscatalog.services.exceptions.DatabaseException;
 import com.brandao.dscatalog.services.exceptions.EmptyRequestException;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
@@ -99,6 +104,27 @@ public class UserService {
         Set<Roles> roles = roleService.findRolesByNameForInternalUse(dto.getRoles());
 
         return roles;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
+
+        if (result.isEmpty()) {
+            throw new UsernameNotFoundException("Email not found");
+        }
+
+        User user = new User();
+        user.setEmail(result.get(0).getUsername());
+        user.setPassword(result.get(0).getPassword());
+
+        for (UserDetailsProjection userDetailsProjection : result) {
+
+            user.addRole(new Roles(userDetailsProjection.getRoleId(), userDetailsProjection.getAuthority()));
+        }
+
+        return user;
+
     }
 
 }

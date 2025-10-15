@@ -1,5 +1,7 @@
 package com.brandao.dscatalog.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +22,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tb_roles")
-public class Roles {
+public class Roles implements GrantedAuthority{
 
     @EqualsAndHashCode.Include
     @Id
