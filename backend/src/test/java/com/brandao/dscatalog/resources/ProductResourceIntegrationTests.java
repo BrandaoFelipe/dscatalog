@@ -5,21 +5,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import org.springframework.security.core.Authentication;
 
 import com.brandao.dscatalog.dtos.request.ProductRequestDTO;
 import com.brandao.dscatalog.tests.Factory;
@@ -38,6 +31,8 @@ public class ProductResourceIntegrationTests {
     private long existingId;
     private long nonExistingId;
     private long productTotalCount;
+    private String adminRole;
+    private String operatorRole;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -45,17 +40,10 @@ public class ProductResourceIntegrationTests {
         existingId = 1L;
         nonExistingId = 999L;
         productTotalCount = 22L;
-
-        setupAuthentication();
-    }
-
-    private void setupAuthentication() {        
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                "test@email.com",
-                "password",
-                List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
+        adminRole = "ROLE_ADMIN";
+        operatorRole = "ROLE_OPERATOR";
+        
+    }    
 
     @Test
     public void findAllShouldReturnSortedPageWhenSortedByName() throws Exception {
@@ -73,6 +61,8 @@ public class ProductResourceIntegrationTests {
 
     @Test
     public void updateProductShouldUpdateProductWhenValidId() throws Exception {
+
+        Token.setupAuthentication(adminRole);
 
         ProductRequestDTO productRequestDTO = Factory.createRequestDTO();
 
@@ -96,6 +86,8 @@ public class ProductResourceIntegrationTests {
 
     @Test
     public void updateProductShouldThrowNotFoundExceptionWhenNonExistantId() throws Exception {
+
+        Token.setupAuthentication(adminRole);
 
         ProductRequestDTO productRequestDTO = Factory.createRequestDTO();
         String jsonBody = objMap.writeValueAsString(productRequestDTO);
