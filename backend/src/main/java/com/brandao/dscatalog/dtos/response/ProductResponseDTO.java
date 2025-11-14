@@ -18,6 +18,6 @@ public class ProductResponseDTO {
     private Double price;
 
     @Builder.Default
-    private List<String> categories = new ArrayList<>();    
+    private List<CategoryResponseDto> categories = new ArrayList<>();    
 
 }

@@ -63,7 +63,7 @@ public class ProductControllerTests {
         productRequestDTO = Factory.createRequestDTO();
 
         // findAllProductsShouldReturnPage
-        when(service.findAllProducts(any())).thenReturn(page);
+        when(service.findAll(any())).thenReturn(page);
 
         // findProductByIdShouldReturnProductWhenValidId
         when(service.findProductById(existingId)).thenReturn(productResponseDTO);

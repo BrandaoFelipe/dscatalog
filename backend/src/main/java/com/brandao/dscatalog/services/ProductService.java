@@ -1,11 +1,13 @@
 package com.brandao.dscatalog.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +17,12 @@ import com.brandao.dscatalog.dtos.response.ProductResponseDTO;
 import com.brandao.dscatalog.entities.Category;
 import com.brandao.dscatalog.entities.Product;
 import com.brandao.dscatalog.mappers.ProductMapper;
+import com.brandao.dscatalog.projections.ProductProjection;
 import com.brandao.dscatalog.repositories.ProductRepository;
 import com.brandao.dscatalog.services.exceptions.DatabaseException;
 import com.brandao.dscatalog.services.exceptions.EmptyRequestException;
 import com.brandao.dscatalog.services.exceptions.NotFoundException;
+import com.brandao.dscatalog.utils.Utils;
 
 @Service
 public class ProductService {
@@ -30,7 +34,26 @@ public class ProductService {
     private CategoryService categoryService;
 
     @Transactional(readOnly = true)
-    public Page<ProductResponseDTO> findAllProducts(Pageable pageable) {
+    public Page<ProductResponseDTO> findAllProducts(Pageable pageable, String name, List<Long> categoryIds) {
+
+        Page<ProductProjection> projection =  repository.findAllWithCategories(pageable, name, categoryIds);        
+
+        List<Long> productIds = projection.stream().map(x -> x.getId()).toList();
+
+        List<Product> entities = repository.searchProductWithCategories(productIds);
+
+        entities = Utils.replace(projection.getContent(), entities);
+
+        List<ProductResponseDTO> responseDto = entities.stream().map(x -> ProductMapper.toResponse(x)).toList();
+        
+        Page<ProductResponseDTO> response = new PageImpl<>(responseDto, projection.getPageable(), projection.getTotalElements());
+
+        return response;
+
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponseDTO> findAll(Pageable pageable) {
 
         Page<Product> list = repository.findAll(pageable);
 
@@ -99,9 +122,9 @@ public class ProductService {
 
         Set<Category> categories = new HashSet<>();
 
-        for (Long num : dto.getCategories()) {
+        for (Long id : dto.getCategories()) {
 
-            Category cat = categoryService.findCategoryEntityByIdForInternalUseOnly(num);
+            Category cat = categoryService.findCategoryEntityByIdForInternalUseOnly(id);
 
             categories.add(cat);
         }

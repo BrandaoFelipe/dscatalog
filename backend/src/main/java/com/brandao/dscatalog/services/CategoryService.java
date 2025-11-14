@@ -1,10 +1,9 @@
 package com.brandao.dscatalog.services;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +21,13 @@ public class CategoryService {
     private CategoryRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<CategoryResponseDto> findAllCategories(Pageable pageable) {
+    public List<CategoryResponseDto> findAllCategories() {
 
-        Page<Category> list = repository.findAll(pageable);
+        List<Category> list = repository.findAll();
 
-        Page<CategoryResponseDto> dtoPage = list.map(CategoryMapper::toResponse);
+        List<CategoryResponseDto> dto = list.stream().map(CategoryMapper::toResponse).toList();
 
-        return dtoPage;
+        return dto;
     }
 
     @Transactional(readOnly = true)
@@ -77,7 +76,7 @@ public class CategoryService {
     }
 
     //This method was created to get the category data for the product persistance.
-    //It's not advised to use it at an endpoint
+    //It's not to expose this entity at an endpoint
     @Transactional(readOnly = true)
     public Category findCategoryEntityByIdForInternalUseOnly(Long id) {
 

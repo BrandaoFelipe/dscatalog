@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.brandao.dscatalog.projections.IdProjection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +33,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "tb_product")
-public class Product {
+public class Product implements IdProjection<Long>{
 
     @EqualsAndHashCode.Include
     @Id
@@ -63,5 +65,10 @@ public class Product {
     @PreUpdate
     public void preUpdate() {
         updatedAt = Instant.now();
+    }
+
+    @Override
+    public Long getId(){
+        return id;
     }
 }

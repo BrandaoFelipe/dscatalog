@@ -1,12 +1,11 @@
 package com.brandao.dscatalog.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,10 +33,20 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponseDTO>> findAll(
-            @PageableDefault(page = 0, size = 12, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<ProductResponseDTO>> findAll(Pageable pageable) {
 
-        Page<ProductResponseDTO> dtoList = service.findAllProducts(pageable);
+        Page<ProductResponseDTO> dtoList = service.findAll(pageable);
+
+        return ResponseEntity.ok(dtoList);
+
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<ProductResponseDTO>> findAllQuery(Pageable pageable,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "categoryIds", defaultValue = "") List<Long> categoryIds) {
+
+        Page<ProductResponseDTO> dtoList = service.findAllProducts(pageable, name, categoryIds);
 
         return ResponseEntity.ok(dtoList);
 

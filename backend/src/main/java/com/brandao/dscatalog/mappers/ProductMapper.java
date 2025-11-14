@@ -6,51 +6,52 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.brandao.dscatalog.dtos.request.ProductRequestDTO;
+import com.brandao.dscatalog.dtos.response.CategoryResponseDto;
 import com.brandao.dscatalog.dtos.response.ProductResponseDTO;
 import com.brandao.dscatalog.entities.Category;
 import com.brandao.dscatalog.entities.Product;
-
-
 
 @Component
 public class ProductMapper {
 
     public static Product toEntity(ProductRequestDTO dto) {
-       
+
         return Product.builder()
-        .name(dto.getName())
-        .description(dto.getDescription())
-        .price(dto.getPrice())
-        .imgUrl(dto.getImgUrl())
-        //.categoryList is in service
-        .build();
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .imgUrl(dto.getImgUrl())
+                // .categoryList is in service
+                .build();
     }
 
-    public static ProductResponseDTO toResponse(Product entity){
+    public static ProductResponseDTO toResponse(Product entity) {
         return ProductResponseDTO.builder()
-        .id(entity.getId())
-        .name(entity.getName())
-        .description(entity.getDescription())
-        .price(entity.getPrice())
-        .categories(mappingSetCategoryObjToStringList(entity))
-        .build();
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .price(entity.getPrice())
+                .categories(mappingSetCategoryObjToStringList(entity))
+                .build();
     }
 
-    public static void applyUpdates(ProductRequestDTO dto, Product entity){
-        
+    public static void applyUpdates(ProductRequestDTO dto, Product entity) {
+
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
     }
 
-    //used to get the category names for the response dto
-    private static List<String> mappingSetCategoryObjToStringList(Product entity){
+    // used to get the category names for the response dto
+    private static List<CategoryResponseDto> mappingSetCategoryObjToStringList(Product entity) {
 
-        List<String>list = new ArrayList<>();
+        List<CategoryResponseDto> list = new ArrayList<>();
 
         for (Category cat : entity.getCategories()) {
-            list.add(cat.getName());
+
+            list.add(new CategoryResponseDto(cat.getId(), cat.getName()));
+
         }
 
         return list;

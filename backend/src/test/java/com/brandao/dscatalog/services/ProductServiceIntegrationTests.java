@@ -61,7 +61,7 @@ public class ProductServiceIntegrationTests {
 
         PageRequest pageRequest = PageRequest.of(0, 12); // a valid object to simulate the request
 
-        Page<ProductResponseDTO> result = service.findAllProducts(pageRequest); // make the request and store the result
+        Page<ProductResponseDTO> result = service.findAll(pageRequest); // make the request and store the result
                                                                                 // in the Page result object
 
         assertFalse(result.isEmpty()); // if the object is not empty it should return "true"
@@ -75,7 +75,7 @@ public class ProductServiceIntegrationTests {
 
         PageRequest pageRequest = PageRequest.of(50, 12); // an invalid object to simulate a failed request
 
-        Page<ProductResponseDTO> result = service.findAllProducts(pageRequest);
+        Page<ProductResponseDTO> result = service.findAll(pageRequest);
 
         assertTrue(result.isEmpty()); // if the object is empty it should return true
 
@@ -86,7 +86,7 @@ public class ProductServiceIntegrationTests {
 
         PageRequest pageRequest = PageRequest.of(0, 12, Sort.by("name"));
 
-        Page<ProductResponseDTO> result = service.findAllProducts(pageRequest);
+        Page<ProductResponseDTO> result = service.findAll(pageRequest);
 
         assertFalse(result.isEmpty());
         assertEquals("Adaga Goblin", result.getContent().get(0).getName());

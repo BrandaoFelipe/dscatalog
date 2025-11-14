@@ -8,7 +8,7 @@ INSERT INTO tb_category (name, created_at) VALUES ('Gobblin', NOW());
 INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Arco de Legolas', 'Réplica do arco utilizado pelo Príncipe Legolas da Floresta Verde. Perfeito para arqueiros de elite.', 250.00, 'legolas_bow.jpg', NOW());
 INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Manto de Lórien', 'Um manto leve e camuflado, feito com a perícia dos Elfos de Lórien. Ideal para viajantes e aventureiros.', 120.00, 'lorien_cloak.jpg', NOW());
 INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Espada Sting (Ferroada)', 'A adaga élfica que brilha na presença de Orcs. Uma peça essencial para qualquer aventureiro.', 180.00, 'sting_sword.jpg', NOW());
-INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Lembas (Pão Élfico)', 'O pão de viagem dos Elfos, que sustenta um viajante por um dia inteiro. Leve e nutritivo.', 15.00, 'lembas_bread.jpg', NOW());
+INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Espada Narsil (Agora Anduril)','A lendária espada forjada pelo ferreiro anão Telchar de Nogrod, quebrada na batalha contra Sauron e posteriormente reforjada pelos Elfos de Rivendell como Anduril, a Chama do Oeste. Símbolo da linhagem real de Aragorn.', 2500.00, 'narsil_anduril_sword.jpg', NOW());
 INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Flauta de Rivendell', 'Uma flauta artesanal inspirada nas melodias élficas de Valfenda.', 80.00, 'rivendell_flute.jpg', NOW());
 
 INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('Machado de Gimli', 'Um machado de batalha robusto, forjado nas montanhas como os utilizados pelos Anões de Erebor.', 200.00, 'gimli_axe.jpg', NOW());
@@ -37,11 +37,12 @@ INSERT INTO tb_product (name, description, price, img_url, created_at) VALUES ('
 INSERT INTO product_category (product_id, category_id) VALUES (1, 1); -- Arco de Legolas
 INSERT INTO product_category (product_id, category_id) VALUES (2, 1); -- Manto de Lórien
 INSERT INTO product_category (product_id, category_id) VALUES (3, 1); -- Espada Sting (Ferroada)
-INSERT INTO product_category (product_id, category_id) VALUES (4, 1); -- Lembas (Pão Élfico)
+INSERT INTO product_category (product_id, category_id) VALUES (4, 1); -- Espada Anduril
 INSERT INTO product_category (product_id, category_id) VALUES (5, 1); -- Flauta de Rivendell
 
 -- Associação dos produtos Dwarf (assumindo product_id de 6 a 9 para os produtos Anões)
 INSERT INTO product_category (product_id, category_id) VALUES (6, 2); -- Machado de Gimli
+INSERT INTO product_category (product_id, category_id) VALUES (4, 2); -- Espada Anduril
 INSERT INTO product_category (product_id, category_id) VALUES (7, 2); -- Capacete de Moria
 INSERT INTO product_category (product_id, category_id) VALUES (8, 2); -- Caneca de Cerveja Anã
 INSERT INTO product_category (product_id, category_id) VALUES (9, 2); -- Picareta de Minas Anãs

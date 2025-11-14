@@ -99,13 +99,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public Set<Roles> getRoles(UserRequestDTO dto) {
-
-        Set<Roles> roles = roleService.findRolesByNameForInternalUse(dto.getRoles());
-
-        return roles;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
@@ -125,6 +118,13 @@ public class UserService implements UserDetailsService {
 
         return user;
 
+    }
+
+    private Set<Roles> getRoles(UserRequestDTO dto) {
+
+        Set<Roles> roles = roleService.findRolesByNameForInternalUse(dto.getRoles());
+
+        return roles;
     }
 
 }
