@@ -12,7 +12,7 @@ public class RoleMapper {
     public static Roles toEntity(RoleRequestDTO dto) {
 
         return Roles.builder()
-                .authority("ROLE_" + dto.getAuthority().toUpperCase())
+                .authority(dto.getAuthority())
                 .build();
     }
 

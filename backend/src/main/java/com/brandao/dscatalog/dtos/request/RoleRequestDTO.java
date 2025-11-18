@@ -1,5 +1,6 @@
 package com.brandao.dscatalog.dtos.request;
 
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

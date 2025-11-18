@@ -1,8 +1,5 @@
 package com.brandao.dscatalog.dtos.request;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.brandao.dscatalog.customValidations.UserInsertValid;
 import com.brandao.dscatalog.projections.UserData;
 
@@ -17,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@UserInsertValid //custom validation annotation
-public class UserRequestDTO implements UserData{
+public class UserCreatedRequestDTO implements UserData{
 
     @NotNull(message = "required")
     @Size(min = 3, max = 100, message = "firstName must have betwenn 3 and 100 caracters")
@@ -35,8 +31,6 @@ public class UserRequestDTO implements UserData{
 
     @NotBlank(message = "required")
     @Size(min = 8, message = "must have at least 8 caracteres")
-    private String password;
-
-    private Set<RoleRequestDTO>roles = new HashSet<>();
+    private String password;    
 
 }

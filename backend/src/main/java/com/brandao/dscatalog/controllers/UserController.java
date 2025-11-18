@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.brandao.dscatalog.dtos.request.UserCreatedRequestDTO;
 import com.brandao.dscatalog.dtos.request.UserRequestDTO;
 import com.brandao.dscatalog.dtos.response.UserResponseDTO;
 import com.brandao.dscatalog.services.UserService;
@@ -56,6 +57,21 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> newUser(@Valid @RequestBody UserRequestDTO dto) {
 
         UserResponseDTO response = service.createNewUser(dto);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(response);
+
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDTO> newUserCreatedByUser(@Valid @RequestBody UserCreatedRequestDTO dto) {
+
+        UserResponseDTO response = service.userCreated(dto);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -1,7 +1,7 @@
 package com.brandao.dscatalog.dtos.response;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +20,6 @@ public class UserResponseDTO {
     private String email;
     
     @Builder.Default
-    private List<String>roles = new ArrayList<>();
+    private Set<RoleResponseDTO>roles = new HashSet<>();
 
 }

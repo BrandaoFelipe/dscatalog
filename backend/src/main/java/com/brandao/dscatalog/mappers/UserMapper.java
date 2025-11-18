@@ -1,19 +1,20 @@
 package com.brandao.dscatalog.mappers;
 
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.brandao.dscatalog.dtos.request.UserRequestDTO;
+import com.brandao.dscatalog.dtos.response.RoleResponseDTO;
 import com.brandao.dscatalog.dtos.response.UserResponseDTO;
-import com.brandao.dscatalog.entities.Roles;
 import com.brandao.dscatalog.entities.User;
+import com.brandao.dscatalog.projections.UserData;
 
 @Component
 public class UserMapper {
 
-    public static User toEntity(UserRequestDTO dto) {
+    public static <T extends UserData> User toEntity(T dto) {
 
         return User.builder()
                 .firstName(dto.getFirstName())
@@ -33,21 +34,21 @@ public class UserMapper {
                 .build();
     }
 
-    public static void applyUpdates(UserRequestDTO dto, User entity) {
+    public static void apply(UserRequestDTO dto, User entity) {
 
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
+        entity.getUserRoles().clear();
     }
 
-    public static List<String> getRoles(User entity) {
+    public static Set<RoleResponseDTO> getRoles(User entity) {
 
-        Set<Roles> roles = entity.getUserRoles();
-
-        List<String> roleNames = roles.stream().map(x -> x.getAuthority()).toList();
-
-        return roleNames;
-    }
+       return entity.getUserRoles()
+       .stream()
+       .map(RoleMapper::toResponse)
+       .collect(Collectors.toSet());
+    }  
 
 }

@@ -1,9 +1,8 @@
 package com.brandao.dscatalog.services;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +49,20 @@ public class RoleService {
         return dto;
     }
 
+    @Transactional(readOnly = true)
+    public Set<Roles> findStandardEntityRoleByid(Long id) {
+
+        Roles entity = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("id not found"));
+
+        Set<Roles> entities = new HashSet<>();
+
+        entities.add(entity);
+
+        return entities;
+
+    }
+
     @Transactional
     public RoleResponseDTO createRole(RoleRequestDTO dto) {
 
@@ -85,17 +98,18 @@ public class RoleService {
     }
 
     @Transactional(readOnly = true)
-    public Set<Roles> findRolesByNameForInternalUse(List<String>roles) {
+    public Set<Roles> findRolesByName(Set<RoleRequestDTO> roles) {
 
-        roles = roles.stream().map(name -> "ROLE_" + name.toUpperCase()).collect(Collectors.toList());
+        Set<Roles> entities = new HashSet<>();
 
-        Set<Roles> entities = repository.findByAuthorityIn(roles);
-        
-        if(entities.isEmpty()){
+        roles.stream().map(x -> entities.add(RoleMapper.toEntity(x)));
+
+        repository.findByAuthorityIn(entities);
+
+        if (entities.isEmpty()) {
             throw new EmptyRequestException("List is empty");
         }
 
         return entities;
-
     }
 }
