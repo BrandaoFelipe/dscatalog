@@ -67,22 +67,40 @@ public class AuthorizationServerConfig {
 	private UserDetailsService userDetailsService;
 
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Bean
-	@Order(2)
+	@Order(1) // MUDEI para Order(1) - deve vir antes do Resource Server
 	public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
 
-		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); //still need to verify the replacement for it.
+	// @formatter:off
+    // SUBSTITUA o applyDefaultSecurity deprecated por esta abordagem:
+    OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+    
+    http
+        .securityMatcher( // ADICIONE este matcher específico
+            "/oauth2/authorize",
+            "/oauth2/token", 
+            "/oauth2/token/introspect",
+            "/oauth2/token/revoke",
+            "/oauth2/jwks",
+            "/oauth2/device_authorization",
+            "/oauth2/device_verification",
+            "/.well-known/oauth-authorization-server/**",
+            "/.well-known/openid-configuration"
+        )
+        .with(authorizationServerConfigurer, (authorizationServer) -> {
+            authorizationServer
+                .tokenEndpoint(tokenEndpoint -> tokenEndpoint
+                    .accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
+                    .authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder))
+                );
+            // Adicione outras configurações do authorization server aqui se necessário
+        });
 
-		// @formatter:off
-		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-			.tokenEndpoint(tokenEndpoint -> tokenEndpoint
-				.accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
-				.authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder)));
-
-		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
-		// @formatter:on
+    http.oauth2ResourceServer(oauth2ResourceServer -> 
+        oauth2ResourceServer.jwt(Customizer.withDefaults()));
+    // @formatter:on
 
 		return http.build();
 	}
@@ -96,8 +114,6 @@ public class AuthorizationServerConfig {
 	public OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService() {
 		return new InMemoryOAuth2AuthorizationConsentService();
 	}
-
-	
 
 	@Bean
 	public RegisteredClientRepository registeredClientRepository() {

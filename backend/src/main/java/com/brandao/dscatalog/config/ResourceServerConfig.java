@@ -29,7 +29,7 @@ public class ResourceServerConfig {
 
 	@Bean
 	@Profile("test")
-	@Order(1)
+	@Order(2)
 	public SecurityFilterChain h2SecurityFilterChain(HttpSecurity http) throws Exception {
 
 		http.securityMatcher(PathRequest.toH2Console()).csrf(csrf -> csrf.disable())
