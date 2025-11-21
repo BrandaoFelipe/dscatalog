@@ -35,5 +35,5 @@ build/
 
 ## OTHERS ##
 
-.data
-.env
+.data/
+*.env
