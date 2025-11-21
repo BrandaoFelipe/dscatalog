@@ -1,9 +1,16 @@
+.env
+
+# Arquivos de Documentação
 HELP.md
 readme.txt
+
+# Arquivos de Build
 target/
-.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Wrapper Maven
+.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -32,3 +39,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
