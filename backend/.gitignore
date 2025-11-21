@@ -32,3 +32,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## OTHERS ##
+
+.data
+.env
