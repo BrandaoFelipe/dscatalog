@@ -15,5 +15,5 @@ public class RoleRequestDTO {
     
     @NotNull(message = "name cannot be null")
     @Size(min = 1, max = 100, message = "name must have betwenn 3 and 100 caracters")
-    private String authority;
+    private String authority;    
 }

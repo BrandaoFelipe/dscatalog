@@ -9,5 +9,4 @@ public interface UserData {
     String getEmail();
 
     String getPassword();
-
 }
