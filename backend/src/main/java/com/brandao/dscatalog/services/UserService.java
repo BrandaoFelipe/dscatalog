@@ -112,10 +112,8 @@ public class UserService implements UserDetailsService {
 
         repository.save(entity);
 
-        UserResponseDTO response = UserMapper.toResponse(entity);
-
-        return response;
-
+        return UserMapper.toResponse(entity);
+        
     }
 
     @Transactional
@@ -154,9 +152,8 @@ public class UserService implements UserDetailsService {
 
     private Set<Roles> getRoles(UserRequestDTO dto) {
 
-        Set<Roles> roles = roleService.findRolesByName(dto.getRoles());
+        return roleService.findRolesByName(dto.getRoles());
 
-        return roles;
     }    
 
 }

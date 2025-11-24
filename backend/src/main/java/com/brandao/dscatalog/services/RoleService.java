@@ -1,6 +1,8 @@
 package com.brandao.dscatalog.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -101,10 +103,14 @@ public class RoleService {
     public Set<Roles> findRolesByName(Set<RoleRequestDTO> roles) {
 
         Set<Roles> entities = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
-        roles.stream().map(x -> entities.add(RoleMapper.toEntity(x)));
+        for(RoleRequestDTO dto : roles){
 
-        repository.findByAuthorityIn(entities);
+            list.add(dto.getAuthority());
+        }
+
+        entities = repository.findByAuthorityIn(list);        
 
         if (entities.isEmpty()) {
             throw new EmptyRequestException("List is empty");
