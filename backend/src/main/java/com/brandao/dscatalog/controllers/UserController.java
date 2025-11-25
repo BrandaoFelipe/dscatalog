@@ -52,6 +52,15 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @GetMapping(path = "/me")
+    public ResponseEntity<UserResponseDTO> findMe() {
+
+        UserResponseDTO dto = service.findUser();
+
+        return ResponseEntity.ok(dto);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<UserResponseDTO> newUser(@Valid @RequestBody UserRequestDTO dto) {

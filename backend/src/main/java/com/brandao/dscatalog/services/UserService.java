@@ -3,7 +3,6 @@ package com.brandao.dscatalog.services;
 import java.util.List;
 import java.util.Set;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -37,8 +36,10 @@ public class UserService implements UserDetailsService {
     private RoleService roleService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthService authService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> findAllUsers(Pageable pageable) {
@@ -66,8 +67,8 @@ public class UserService implements UserDetailsService {
         if (request == null)
             throw new EmptyRequestException("object cannot be null");
 
-        User entity = UserMapper.toEntity(request);        
-        
+        User entity = UserMapper.toEntity(request);
+
         entity.setUserRoles(roleService.findStandardEntityRoleByid(1L));
 
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
@@ -105,7 +106,7 @@ public class UserService implements UserDetailsService {
         User entity = repository.findById(id).orElseThrow(() -> new NotFoundException("item not found"));
 
         UserMapper.apply(request, entity);
-        
+
         entity.setUserRoles(getRoles(request));
 
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
@@ -113,7 +114,7 @@ public class UserService implements UserDetailsService {
         repository.save(entity);
 
         return UserMapper.toResponse(entity);
-        
+
     }
 
     @Transactional
@@ -150,19 +151,18 @@ public class UserService implements UserDetailsService {
 
     }
 
-    @Transactional
-    protected void updateUserInternal(User entity) {
+    public UserResponseDTO findUser() {
 
-        entity.setPassword(passwordEncoder.encode(entity.getPassword()));       
+        User obj = authService.authenticated();
 
-        repository.save(entity);
-        
+        return UserMapper.toResponse(obj);
     }
+
 
     private Set<Roles> getRoles(UserRequestDTO dto) {
 
         return roleService.findRolesByName(dto.getRoles());
 
-    }    
+    }
 
 }

@@ -6,7 +6,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +34,9 @@ public class AuthService {
     private String recoverUri;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -36,9 +44,6 @@ public class AuthService {
 
     @Autowired
     private MailService mailService;
-
-    @Autowired
-    private UserService userService;
 
     @Transactional
     public void createRecoverToken(EmailRequestDTO dto) {
@@ -72,7 +77,7 @@ public class AuthService {
 
         List<PasswordRecover> validToken = passwordRepository.searchValidTokens(dto.getToken(), Instant.now());
 
-        System.out.println("QUANTIDADE DE TOKENS ENCONTRADOS: " + validToken.size());        
+        System.out.println("QUANTIDADE DE TOKENS ENCONTRADOS: " + validToken.size());
 
         if (validToken.isEmpty()) {
             throw new EmailException("Invalid token");
@@ -86,10 +91,26 @@ public class AuthService {
             throw new NotFoundException("Email not found");
         }
 
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userRepository.save(user);        
 
-        userService.updateUserInternal(user);
+    }
 
+    protected User authenticated() {
+
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+            Jwt jwtPrincipal = (Jwt) auth.getPrincipal();
+
+            String username = jwtPrincipal.getClaim("username");
+
+            return userRepository.findByEmail(username);
+
+        } catch (Exception e) {
+
+            throw new UsernameNotFoundException("Invalid user");
+        }
     }
 
 }
