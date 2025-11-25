@@ -150,6 +150,15 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    protected void updateUserInternal(User entity) {
+
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));       
+
+        repository.save(entity);
+        
+    }
+
     private Set<Roles> getRoles(UserRequestDTO dto) {
 
         return roleService.findRolesByName(dto.getRoles());

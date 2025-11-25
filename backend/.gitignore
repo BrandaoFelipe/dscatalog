@@ -36,6 +36,11 @@ build/
 ## OTHERS ##
 
 .data/
-.mvn/
+.mvn
 *.env
 *.yml
+*.gitignore
+*.gitattributes
+*.mvn
+mvnw
+mvnw.cmd

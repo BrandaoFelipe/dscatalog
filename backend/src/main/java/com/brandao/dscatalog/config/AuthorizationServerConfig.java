@@ -70,15 +70,14 @@ public class AuthorizationServerConfig {
 	private PasswordEncoder passwordEncoder;
 
 	@Bean
-	@Order(1) // MUDEI para Order(1) - deve vir antes do Resource Server
+	@Order(1) 
 	public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
 
 	// @formatter:off
-    // SUBSTITUA o applyDefaultSecurity deprecated por esta abordagem:
-    OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
     
     http
-        .securityMatcher( // ADICIONE este matcher específico
+        .securityMatcher(
             "/oauth2/authorize",
             "/oauth2/token", 
             "/oauth2/token/introspect",
@@ -94,8 +93,7 @@ public class AuthorizationServerConfig {
                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                     .accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
                     .authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder))
-                );
-            // Adicione outras configurações do authorization server aqui se necessário
+                );            
         });
 
     http.oauth2ResourceServer(oauth2ResourceServer -> 

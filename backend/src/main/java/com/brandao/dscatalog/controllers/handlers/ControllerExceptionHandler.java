@@ -24,7 +24,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> objNotFound(NotFoundException e, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
-        CustomError err = new CustomError(Instant.now(), status.value(), "an error occured", e.getMessage(),
+        CustomError err = new CustomError(Instant.now(), status.value(), "Not Found Exception", e.getMessage(),
                 request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
@@ -34,7 +34,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> emptyRequest(EmptyRequestException e, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError err = new CustomError(Instant.now(), status.value(), "an error occured", e.getMessage(),
+        CustomError err = new CustomError(Instant.now(), status.value(), "Empty Request Exception", e.getMessage(),
                 request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
@@ -44,7 +44,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> databaseException(DatabaseException e, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError err = new CustomError(Instant.now(), status.value(), "an error occured", e.getMessage(),
+        CustomError err = new CustomError(Instant.now(), status.value(), "Database Exception", e.getMessage(),
                 request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
@@ -71,8 +71,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(EmailException.class)
     public ResponseEntity<CustomError> email(EmailException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError err = new CustomError(Instant.now(), status.value(), "an error occured", e.getMessage(), request.getRequestURI());
+        CustomError err = new CustomError(Instant.now(), status.value(), "Email Exception", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+
 
 }

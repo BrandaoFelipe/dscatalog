@@ -1,7 +1,7 @@
 package com.brandao.dscatalog.dtos.request;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class EmailRequestDTO {
+public class NewPasswordDTO {
 
     @NotBlank(message = "Required field")
-    @Email(message = "Invalid email")
-    private String to;
+    private String token;
+
+    @NotBlank
+    @Size(min = 8, message = "it must have at least 8 caracters")
+    private String password;
 }
